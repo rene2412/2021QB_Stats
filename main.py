@@ -2,29 +2,31 @@ import csv
 import sys
 # Function to read and print the contents of the CSV file
 def search_qb_stats(file_path): 
-    labels =  ["Team:", "Completions:", "Attempts:", "Yards:", "Touchdowns:", "Interceptions", "Sacked:", "Sacked Yards:", "Longest Pass:", "Passer Rating: ", "Rushing Attempts:", "Rushing Yards:", "Rushing TD's:", "Longest Rush:"]
-    #while True:
+    labels =  ["Team:", "Completions:", "Attempts:", "Yards:", "Touchdowns:", "Interceptions", "Sacked:", "Sacked Yards:", "Longest Pass:", "Passer Rating: ", "Rushing Attempts:", "Rushing Yards:", "Rushing TD's:", "Longest Rush:"]    
     qb_name = input("Enter the name of the Quarterback: ")
+    found = False
     with open(file_path, newline='') as csvfile:
-            csvreader = csv.reader(csvfile)
-            for row in csvreader:
-                name = row[0].strip()
-                if name == qb_name:
-                    stats = row[1:15]
-                    print(f"2021 Stats for {name}: ")
-                    for index, stat in enumerate(stats):
-                        label = labels[index]
-                        print(f"{label} {stat}")
-                #else:
-                  #  print("Error finding Qb: Please enter a valid name")
-                   # break
+         csvreader = csv.reader(csvfile)
+         for row in csvreader:
+             name = row[0].strip()
+             if name == qb_name:
+                 stats = row[1:15]
+                 print(f"2021 Stats for {name}: ")
+                 for index, stat in enumerate(stats):
+                    label = labels[index]
+                    print(f"{label} {stat}")
+                 found = True
+                 print("\n")
+                 break
+         if not found :
+            print("Error finding QB: Please enter a valid name:\n")
 
 def common_qb_questions(file_path):
     while True:
         try:
             option = int(input("Please enter an option (1-5):\n1) Which QB had the most touchdowns in 2021\n2) Which QB had the most passing yards in 2021\n3) Which QB had the most completions in 2021\n4) Which QB had the highest passer rating in 2021\n5) Quit\n"))
         except ValueError:
-            print("INVALID INPUT")
+            print("INVALID INPUT\n")
             continue
         with open(file_path, newline='') as csvfile:
             csvreader = csv.reader(csvfile)
@@ -46,8 +48,8 @@ def common_qb_questions(file_path):
                 for i, row in enumerate(csvreader):
                     if i == max_index:
                         max_value = row[0]
-                        print("QB Name: ", max_value, " | Touchdowns: ", max_touchdowns)
-                        break
+                        print(max_value, ": ", max_touchdowns, "Touchdowns\n\n")
+                break
             elif option == 2:
                 column_data = [col[4] for col in csvreader]
                 pass_yards = []
@@ -62,8 +64,8 @@ def common_qb_questions(file_path):
                 for i, row in enumerate(csvreader):
                     if i == max_index:
                         max_value = row[0]
-                        print("QB Name: ", max_value, "| Pass Yards: ", max_pass_yards)
-                        break
+                        print(max_value, ": ", max_pass_yards, " Yards\n\n")
+                break
             elif option == 3:
                 column_data = [col[2] for col in csvreader]
                 pass_completions = []
@@ -78,8 +80,8 @@ def common_qb_questions(file_path):
                 for i, row in enumerate(csvreader):
                     if i == max_index:
                         max_value = row[0]
-                        print("QB Name: ", max_value, "| Pass Completions: ", max_pass_completions)
-                        break
+                        print(max_value, ": ", max_pass_completions, " Completions\n\n")
+                break
             elif option == 4: 
                 column_data = [col[10] for col in csvreader]
                 pass_ratings = []
@@ -94,18 +96,18 @@ def common_qb_questions(file_path):
                 for i, row in enumerate(csvreader):
                     if i == max_index:
                      max_value = row[0]
-                     print("QB Name: ", max_value, "| Passer Rating: ", max_pass_ratings)
-                     break
+                     print(max_value, ": ", max_pass_ratings, "Passer Rating\n\n")
+                break
             else:
                 sys.exit()
 while True:
     try: 
         main = int(input("Do you want to:\n1) Search 2021 QB Stats?\n2) Search through the most common asked 2021 QB Questions\n3) Quit\n"))
     except ValueError:
-        print("INVALID INPUT")
+        print("INVALID INPUT\n")
         continue
     if main != 1 and main !=2 and main !=3:
-        print("Invalid Input")
+        print("INVALID INPUT\n")
         continue
     csv_file_path = 'nfl_offense_data_2021.csv'
     if main == 1:
