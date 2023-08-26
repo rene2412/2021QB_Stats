@@ -18,9 +18,46 @@ def search_qb_stats(file_path):
                  found = True
                  print("\n")
                  break
-         if not found :
+         if not found:
             print("Error finding QB: Please enter a valid name:\n")
 
+def get_max_stat(file_path, column_index):
+    with open(file_path, newline='') as csvfile:
+        csvreader = csv.reader(csvfile)
+        column_data = [col[column_index] for col in csvreader]
+        stats = []
+        for stat in column_data:
+            try:
+                stats.append(float(stat))
+            except ValueError:
+                stats.append(0)
+        max_stat = max(stats)
+        max_qb_index = stats.index(max_stat)
+        csvfile.seek(0)
+        labels = ["Touchdowns", "Yards", "Completions", "Passer Rating"]
+        for i, col in enumerate(csvreader):
+            if i == max_qb_index:
+                label = labels[i]
+                name = col[0]
+                print(name, col[column_index], f"{label}")
+ 
+csv_file_path = 'nfl_offense_data_2021.csv'
+get_max_stat(csv_file_path, 5)
+'''
+def common_qb_questions(file_path):
+    while True:
+        try:
+            option = int(input("Please enter an option (1-5):\n1) Which QB had the most touchdowns in 2021\n2) Which QB had the most passing yards in 2021\n3) Which QB had the most completions in 2021\n4) Which QB had the highest passer rating in 2021\n5) Quit\n"))
+        except ValueError:
+            print("INVALID INPUT\n")
+            continue
+        if option == 1:
+            max_value, max_stat = get_max_stat(file_path, 8)
+            print(max_value, ": ", max_stat, "Touchdowns")
+        break
+'''
+
+'''
 def common_qb_questions(file_path):
     while True:
         try:
@@ -100,6 +137,8 @@ def common_qb_questions(file_path):
                 break
             else:
                 sys.exit()
+
+
 while True:
     try: 
         main = int(input("Do you want to:\n1) Search 2021 QB Stats?\n2) Search through the most common asked 2021 QB Questions\n3) Quit\n"))
@@ -118,3 +157,4 @@ while True:
         continue
     else:
         sys.exit()
+    '''
