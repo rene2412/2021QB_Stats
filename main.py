@@ -51,6 +51,7 @@ def common_qb_questions():
             continue
         if option < 1 and option > 4:
             print("Invalid Input\n")
+            continue
         if option == 1:
             get_max_stat(csv_file_path, 5); print(" Touchdowns")     
             break
